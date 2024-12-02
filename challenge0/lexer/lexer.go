@@ -2,8 +2,6 @@ package lexer
 
 import (
 	"strconv"
-
-	"github.com/kaleabAlemayehu/Aoc2024/helpers"
 )
 
 type Lexer struct {
@@ -34,7 +32,9 @@ func (l *Lexer) NextToken() int {
 	l.skipWhitespace()
 	if isDigit(l.ch) {
 		tok, err := strconv.Atoi(string(l.readNumber()))
-		helpers.CheckError(err)
+		if err != nil {
+			panic(err)
+		}
 		return tok
 	}
 	l.readChar()
