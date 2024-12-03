@@ -2,10 +2,8 @@ package main
 
 import (
 	"fmt"
-	"os"
-	"slices"
-
 	"github.com/kaleabAlemayehu/Aoc2024/lexer"
+	"os"
 )
 
 func main() {
@@ -26,18 +24,24 @@ func main() {
 			right = append(right, int(v))
 		}
 	}
-	// Sort both array
-	slices.Sort(left)
-	slices.Sort(right)
-	// Subtract the difference
-	var sum int
-	for i := 0; i < 1000; i++ {
-		if left[i] > right[i] {
-			sum += left[i] - right[i]
+	// Create fq counter the right list
+	fq := make(map[int]int)
+	for _, v := range right {
+		i, ok := fq[v]
+		if !ok {
+			fq[v] = 1
 		} else {
-			sum += right[i] - left[i]
+			fq[v] = i + 1
 		}
 	}
-	fmt.Println("sum is: ", sum)
-	// Add the difference
+	var sum int
+	// Loop over element of left and sum the value * frequency_of_value
+	for _, v := range left {
+		i, ok := fq[v]
+		if ok {
+			sum += v * i
+		}
+	}
+	fmt.Println("the sum is:", sum)
+
 }
